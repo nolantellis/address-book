@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+ postgresqldb:
+    container_name: postgresqldb
+    image: postgres
+    ports:
+    - 5452:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+        - my-network
+    environment:
+      POSTGRES_DB: addressbook
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+ addressbook-app:
+  container_name: addressbook-app
+  image: myapp/addressbook-app
+  ports:
+    - "8080:8080"        
+  depends_on:
+      postgresqldb:
+        condition: service_healthy
+  environment:
+    spring.profiles.active : prod
+  volumes:
+     - addressbook_volume:/root/.application
+  networks:
+     - my-network
+  healthcheck:
+      test: "curl --fail --silent addressbook-app:8080/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+volumes:
+  addressbook_volume:
+  postgres_data:
+
+networks:
+  my-network:
+  

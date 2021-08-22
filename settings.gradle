@@ -1,0 +1,5 @@
+rootProject.name = 'address-book-app'
+
+include ':address-book-rest'
+include ':address-book-core'
+include ':address-book-db'

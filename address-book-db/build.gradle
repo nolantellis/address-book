@@ -1,0 +1,11 @@
+group = 'com.addressbook.db'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+	api 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.liquibase:liquibase-core'
+	// Adding H2 as preference for anyone who would like to use this at runtime
+	implementation 'com.h2database:h2' 
+	implementation 'org.postgresql:postgresql'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

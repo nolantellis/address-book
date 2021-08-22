@@ -1,0 +1,136 @@
+databaseChangeLog:
+  -  changeSet:  
+      id: 20210818115100
+      author:  nolant  
+      changes:  
+        -  createTable:  
+            tableName:  address_book  
+            columns:  
+              -  column:  
+                  name:  id  
+                  type:  bigint  
+                  autoIncrement:  true  
+                  constraints:  
+                    primaryKey:  true  
+                    nullable:  false  
+              -  column:  
+                  name:  name  
+                  type:  varchar(100)
+                  constraints:  
+                    unique: true                    
+
+  -  changeSet:  
+      id: 20210818125100
+      author:  nolant  
+      changes:  
+        -  createTable:  
+            tableName:  contact  
+            columns:  
+              -  column:  
+                  name:  id  
+                  type:  bigint  
+                  autoIncrement:  true  
+                  constraints:  
+                    primaryKey:  true  
+                    nullable:  false  
+              -  column:  
+                  name:  first_name  
+                  type:  varchar(50)
+                  constraints:
+                    nullable:  false
+              -  column:  
+                  name:  last_name  
+                  type:  varchar(50)
+                  constraints:
+                    nullable:  false
+
+  -  changeSet:
+      id: 20210819115600
+      author:  nolant  
+      changes:  
+        -  createTable:  
+            tableName:  address_book_contact  
+            columns:  
+              -  column:  
+                  name:  address_book_id  
+                  type:  bigint   
+                  constraints:
+                    nullable:  false               
+              -  column:
+                  name:  contact_id  
+                  type:  bigint
+                  constraints:
+                    nullable:  false
+        - addPrimaryKey:
+           clustered:  true  
+           columnNames:  address_book_id, contact_id  
+           constraintName:  pk_address_book_contact        
+           tableName:  address_book_contact      
+           validate:  true
+
+        -  addForeignKeyConstraint:  
+            baseColumnNames:  address_book_id
+            baseTableName:  address_book_contact
+            constraintName:  fk_address_book_contact_addbk_id
+            referencedColumnNames:  id  
+            referencedTableName:  address_book  
+            validate:  true
+
+        -  addForeignKeyConstraint:  
+            baseColumnNames:  contact_id
+            baseTableName:  address_book_contact
+            constraintName:  fk_address_book_contact_contact_id
+            referencedColumnNames:  id  
+            referencedTableName:  contact  
+            validate:  true
+      
+  -  changeSet:  
+      id: 20210818025100
+      author:  nolant  
+      changes:  
+        -  createTable:  
+            tableName:  phone_details  
+            columns:  
+              -  column:  
+                  name:  contact_id  
+                  type:  bigint
+              -  column:  
+                  name:  phone_number_type  
+                  type:  varchar(50)
+              -  column:  
+                  name:  phone_number  
+                  type:  varchar(20)
+        -  addForeignKeyConstraint:  
+            baseColumnNames:  contact_id
+            baseTableName:  phone_details
+            constraintName:  fk_phone_details_contact_id
+            referencedColumnNames:  id  
+            referencedTableName:  contact  
+            validate:  true
+
+  - changeSet:  
+     id:  insert-example  
+     author:  liquibase-docs  
+     changes:  
+       -  insert:  
+           tableName:  address_book 
+           columns:  
+             -  column:  
+                 name:  id  
+                 value:  1
+             -  column:  
+                 name:  name  
+                 value:  test
+
+       -  insert:  
+           tableName:  address_book 
+           columns:  
+             -  column:  
+                 name:  id  
+                 value:  2
+             -  column:  
+                 name:  name  
+                 value:  testName
+
+        
+      

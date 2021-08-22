@@ -1,0 +1,7 @@
+group = 'com.addressbook.service'
+
+
+dependencies {
+	implementation project(':address-book-db')
+	implementation 'com.github.dozermapper:dozer-core:6.5.2'
+}

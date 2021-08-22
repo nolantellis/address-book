@@ -1,0 +1,24 @@
+group = 'com.addressbook.rest'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'	
+	implementation 'org.springdoc:springdoc-openapi-ui:1.5.10'
+	implementation 'org.springdoc:springdoc-openapi-data-rest:1.5.10'
+	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.3'
+	implementation project(':address-book-core')
+	testImplementation 'org.springframework:spring-webflux'
+	
+	
+}
+
+bootJar {
+mainClassName = 'com.addressbook.AddressBookApplication'
+ enabled = true;
+}
+
+bootRun {
+mainClass = 'com.addressbook.AddressBookApplication'
+ enabled = true;
+}

@@ -1,0 +1,84 @@
+group = 'com.addressbook'
+
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+    jcenter()
+  }
+  dependencies {
+    classpath "org.springframework.boot:spring-boot-gradle-plugin:2.5.3"
+    classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"    
+    classpath 'org.jacoco:org.jacoco.ant:0.8.2'
+  }
+}
+
+subprojects {
+
+
+repositories {
+  mavenCentral()
+}
+
+  apply plugin: "java"
+  apply plugin: 'java-library'
+  apply plugin: "pmd"
+  apply plugin: 'checkstyle'
+  apply plugin: 'jacoco'
+  apply plugin: 'eclipse'
+  apply plugin: 'idea'
+  apply plugin: "org.springframework.boot"
+  apply plugin: "io.spring.dependency-management"
+
+  version = '1.0.0-SNAPSHOT'
+  sourceCompatibility = '11'
+  dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    testImplementation 'org.assertj:assertj-core:3.20.2'
+    
+    
+    compileOnly 'org.projectlombok:lombok'
+    testImplementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+  }
+
+  test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
+  }
+  
+ 
+  checkstyle {      
+  toolVersion = "8.45.1"          
+        configFile = file("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
+    }
+    
+    pmd {
+    toolVersion = "6.37.0"
+    }
+  
+ bootJar {
+    enabled = false
+  }
+
+ bootRun {
+    enabled = false
+  } 
+  
+  bootRunMainClassName {
+    enabled = false
+  }
+
+  bootJarMainClassName {
+    enabled = false
+  }
+
+  jar {
+    enabled = true
+  }
+ 
+
+}
